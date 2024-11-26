@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'home_view.dart';
-import 'main_menu_button.dart';
+
 
 class AdvancedApp extends StatefulWidget {
   static const String NAME = 'advanced';
@@ -38,6 +38,6 @@ class _AdvancedAppState extends State<AdvancedApp> {
               bodyColor: Colors.black,
             )),
         home:
-            Scaffold(body: HomeView(), floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, floatingActionButton: MainMenuButton()));
+            Scaffold(body: HomeView(), floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,));
   }
 }

@@ -298,7 +298,7 @@ class MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin<Map
 
   void _onTap(pos, latLng) {
     if (!_isCreatingPolygonGeofence) return;
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("TEST_MODE_CLICK"));
+    
     HapticFeedback.heavyImpact();
     int index = _polygonGeofenceCursorMarkers.length + 1;
     setState(() {
@@ -320,7 +320,7 @@ class MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin<Map
   }
   void _onAddGeofence(pos, latLng) {
     if (_isCreatingPolygonGeofence) return;
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("LONG_PRESS_ACTIVATE"));
+    
     HapticFeedback.heavyImpact();
     print("[_onAddGgeofence] latLng: $latLng");
 

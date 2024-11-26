@@ -103,7 +103,7 @@ class _HomeViewState extends State<_HomeView> {
   }
 
   void _showRegistration() async {
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("OPEN"));
+    
 
     final result = await Navigator.of(context).push(MaterialPageRoute<Map>(
         fullscreenDialog: true,
@@ -121,58 +121,34 @@ class _HomeViewState extends State<_HomeView> {
   }
 
   void _onClickNavigate(String appName) async {
-    if (!_usernameIsValid(_username) || !_usernameIsValid(_orgname)) {
-      _showRegistration();
-      return;
-    }
+   if (!_usernameIsValid(_username) || !_usernameIsValid(_orgname)) {
+  _showRegistration();
+  return;
+}
 
-    final SharedPreferences prefs = await _prefs;
+final SharedPreferences prefs = await _prefs;
+bool hasDisclosedBackgroundPermission =
+    prefs.containsKey("has_disclosed_background_permission");
 
-    bool hasDisclosedBackgroundPermission =
-        prefs.containsKey("has_disclosed_background_permission");
-    // [Android] Play Store compatibility requires disclosure of background permission before location runtime permission is requested.
-    if (!hasDisclosedBackgroundPermission &&
-        (defaultTargetPlatform == TargetPlatform.android)) {
-      AlertDialog dialog = AlertDialog(
-        title: Text('Background Location Access'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text(
-                  'BG Geo collects location data to enable tracking your trips to work and calculate distance travelled even when the app is closed or not in use.'),
-              Text(''),
-              Text(
-                  'This data will be uploaded to tracker.transistorsoft.com where you may view and/or delete your location history.')
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-      await showDialog(
-          context: context, builder: (BuildContext context) => dialog);
-      prefs.setBool("has_disclosed_background_permission", true);
-    }
+// Удаляем код, который отображает AlertDialog
 
-    prefs.setString("app", appName);
+if (defaultTargetPlatform == TargetPlatform.android) {
+  prefs.setBool("has_disclosed_background_permission", true);
+}
 
-    Widget app;
-    switch (appName) {
-      case AdvancedApp.NAME:
-        app = new AdvancedApp();
-        break;
-      default:
-        return;
-        
-    }
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("OPEN"));
-    runApp(app);
+prefs.setString("app", appName);
+
+Widget app;
+switch (appName) {
+  case AdvancedApp.NAME:
+    app = new AdvancedApp();
+    break;
+  default:
+    return;
+}
+
+runApp(app);
+
   }
 
   bool _usernameIsValid(String username) {
@@ -214,7 +190,7 @@ class _HomeViewState extends State<_HomeView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                
-                                _buildApplicationButton('Advanced App',
+                                _buildApplicationButton('Open Map',
                                     onPressed: () {
                                   _onClickNavigate("advanced");
                                 }),

@@ -12,7 +12,7 @@ import '../config/ENV.dart';
 import 'map_view.dart';
 import 'event_list.dart';
 import './util/dialog.dart' as util;
-import './util/test.dart';
+
 
 import 'shared_events.dart';
 
@@ -239,7 +239,7 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
   }
 
   void _onClickEnable(enabled) async {
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("BUTTON_CLICK"));
+    
     if (enabled) {
       dynamic callback = (bg.State state) async {
         print('[start] success: $state');
@@ -282,7 +282,7 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
 
   // Manually fetch the current position.
   void _onClickGetCurrentPosition() async {
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("BUTTON_CLICK"));
+    
 
     bg.BackgroundGeolocation.getCurrentPosition(
         persist: true,       // <-- do not persist this location
@@ -300,7 +300,7 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
 
   // Go back to HomeApp
   void _onClickHome() {
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("CLOSE"));
+    
     bg.BackgroundGeolocation.stop();
     bg.BackgroundGeolocation.removeListeners();
     runApp(HomeApp());
@@ -415,7 +415,7 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
         "Authorization": "Bearer ${state.authorization?.accessToken}"
       }).then((String result) {
         print("[http test] success: $result");
-        bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("TEST_MODE_CLICK"));
+        
         bg.BackgroundGeolocation.stopBackgroundTask(taskId);
       }).catchError((dynamic error) {
         print("[http test] failed: $error");
@@ -466,7 +466,7 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('BG Geo'),
+          
           centerTitle: true,
           leading: IconButton(onPressed: _onClickHome, icon: Icon(Icons.home, color: Colors.black)),
           backgroundColor: Colors.amberAccent,
@@ -495,25 +495,17 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
               padding: const EdgeInsets.only(left: 5.0, right: 5.0),
               child: Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.gps_fixed),
-                      onPressed: _onClickGetCurrentPosition,
-                    ),
-                    TextButton(
-                        child: Text('$_motionActivity · $_odometer km'),
-                        onPressed: _onClickTestMode,
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black)
-                        )
-                    ),
+                    
                     MaterialButton(
                         minWidth: 50.0,
                         child: Icon((_isMoving!) ? Icons.pause : Icons.play_arrow, color: Colors.white),
                         color: (_isMoving!) ? Colors.red : Colors.green,
                         onPressed: _onClickChangePace
-                    )
+                    ),
+                    SizedBox(width: 10,),
+                    Text('начать запись маршрута'),
                   ]
               )
           )
@@ -523,22 +515,7 @@ class HomeViewState extends State<HomeView> with TickerProviderStateMixin<HomeVi
 
   /// My private field-test setup.
   /// @private IGNORE.
-  void _onClickTestMode() {
-    _testModeClicks++;
-
-    bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("TEST_MODE_CLICK"));
-    if (_testModeClicks == 10) {
-      bg.BackgroundGeolocation.playSound(util.Dialog.getSoundId("TEST_MODE_SUCCESS"));
-      Test.applyTestConfig();
-    }
-    var _testModeTimer = this._testModeTimer;
-    if (_testModeTimer != null) {
-      _testModeTimer.cancel();
-    }
-    _testModeTimer = new Timer(Duration(seconds: 2), () {
-      _testModeClicks = 0;
-    });
-  }
+  
 
   @override
   void dispose() {
