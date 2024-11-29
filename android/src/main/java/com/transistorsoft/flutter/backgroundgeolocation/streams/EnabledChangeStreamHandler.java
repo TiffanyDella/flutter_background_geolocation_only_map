@@ -1,4 +1,4 @@
-package com.transistorsoft.flutter.backgroundgeolocation.streams;
+package android.src.main.java.com.transistorsoft.flutter.backgroundgeolocation.streams;
 
 import com.transistorsoft.locationmanager.adapter.BackgroundGeolocation;
 import com.transistorsoft.locationmanager.adapter.callback.TSEnabledChangeCallback;
